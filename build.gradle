@@ -10,15 +10,23 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    //testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    //testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    compile 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    compile 'org.junit.jupiter:junit-jupiter-engine'
     // https://mvnrepository.com/artifact/com.itextpdf/itext-pdfa
-    implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13.1'
-    implementation group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
+    compile  group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13.1'
+    compile  group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
     // https://mvnrepository.com/artifact/org.codehaus.xfire/bcprov-jdk15
-    implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.68'
+    compile  group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.68'
 
+}
 
+jar {
+    manifest {
+        attributes 'Main-Class' : 'WaterMarkMain'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 test {

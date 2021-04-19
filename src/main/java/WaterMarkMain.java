@@ -14,23 +14,24 @@ import org.apache.commons.io.FileUtils;
 public class WaterMarkMain {
 
     public static void main(String[] args) throws IOException, DocumentException {
-        String path = "in_pdf";
-        File dir = new File(path);
+        String inPath = "C:\\watermark\\in_pdf\\";
+        String outPath = "C:\\watermark\\out_pdf\\";
+        File dir = new File(inPath);
         File[] fileList = dir.listFiles();
         //FileWriter writer = new FileWriter(new File("/Users/pc/test/test.txt"), true);
 
         for(int i=0; i<fileList.length; i++) {
             File file = fileList[i];
             System.out.println(file.getName());
-            PdfCreate(file.getName());
+            PdfCreate(file.getName(),inPath,outPath);
         }
 
     }
 
-    private static void PdfCreate(String fileName) throws IOException, DocumentException {
+    private static void PdfCreate(String fileName, String inPath, String outPath) throws IOException, DocumentException {
         Document document = new Document(PageSize.A4);
         // 출력할 pdf 파일
-        PdfWriter writer = PdfWriter.getInstance(document, FileUtils.openOutputStream(new File("out_pdf/" + fileName)));
+        PdfWriter writer = PdfWriter.getInstance(document, FileUtils.openOutputStream(new File(outPath + fileName)));
 
         document.open();
 
@@ -38,7 +39,7 @@ public class WaterMarkMain {
 
         // 원본 pdf 파일(클래스패스에서 가져옴)
         //PdfReader reader = new PdfReader(WaterMarkMain.class.getResourceAsStream("./in/7002270-21-1389.pdf"));
-        PdfReader reader = new PdfReader("in_pdf/" + fileName);
+        PdfReader reader = new PdfReader(inPath + fileName);
 
         // 워터마크 이미지(클래스패스에서 가져옴)
         Image img = Image.getInstance(WaterMarkMain.class.getClassLoader().getResource("watermark.jpg"));
@@ -83,7 +84,7 @@ public class WaterMarkMain {
 
     private static PdfPTable writeText(String text) throws DocumentException, IOException {
         // 클래스패스 루트에 나눔고딕 폰트 추가(한글을 쓰기 위해서 한글폰트를 설정해 줘야됨)
-        BaseFont base_font = BaseFont.createFont("NanumBarunGothic.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        BaseFont base_font = BaseFont.createFont("NanumGothic.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
         Font font = new Font(base_font, 10);
         //Font header_font = new Font(base_font, 10);
